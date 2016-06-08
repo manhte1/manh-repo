@@ -7,8 +7,8 @@
 # https://redmine.openinfosecfoundation.org/projects/suricata/wiki/Suricatayaml
 
 
-# Number of packets preallocated per thread. The default is 1024. A higher number 
-# will make sure each CPU will be more easily kept busy, but may negatively 
+# Number of packets preallocated per thread. The default is 1024. A higher number
+# will make sure each CPU will be more easily kept busy, but may negatively
 # impact caching.
 #
 # If you are using the CUDA pattern matcher (mpm-algo: ac-cuda), different rules
@@ -224,7 +224,6 @@ outputs:
       append: yes
       #extended: yes     # enable this for extended logging information
       #custom: yes       # enabled the custom logging format (defined by customformat)
-      #customformat: "%{%D-%H:%M:%S}t.%z %{X-Forwarded-For}i %H %m %h %u %s %B %a:%p -> %A:%P"
       #filetype: regular # 'regular', 'unix_stream' or 'unix_dgram'
 
   # a line based log of TLS handshake parameters (no alerts)
@@ -397,7 +396,7 @@ outputs:
 
 # Magic file. The extension .mgc is added to the value here.
 #magic-file: /usr/share/file/magic
-#magic-file: 
+#magic-file:
 
 # When running in NFQ inline mode, it is possible to use a simulated
 # non-terminal NFQUEUE verdict.
@@ -1307,9 +1306,9 @@ app-layer:
       enabled: no
       detection-ports:
         dp: 502
-      # According to MODBUS Messaging on TCP/IP Implementation Guide V1.0b, it 
-      # is recommended to keep the TCP connection opened with a remote device 
-      # and not to open and close it for each MODBUS/TCP transaction. In that 
+      # According to MODBUS Messaging on TCP/IP Implementation Guide V1.0b, it
+      # is recommended to keep the TCP connection opened with a remote device
+      # and not to open and close it for each MODBUS/TCP transaction. In that
       # case, it is important to set the depth of the stream reassembling as
       # unlimited (stream.reassembly.depth: 0)
     # smb2 detection is disabled internally inside the engine.

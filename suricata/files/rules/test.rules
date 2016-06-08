@@ -1,0 +1,13 @@
+alert icmp any any -> 8.8.8.8 any (msg:"DNS google stream"; sid:10000001; rev:1;)
+
+#alert ip any any -> any any (msg:"Facebook connecting"; content:"*.facebook.com";)
+
+#alert ip any any -> any 80 (msg:"Dantri.com"; content:"|64 61 6e 74 72 69 2e 63 6f 6d 2e|"; sid:10000002; rev:1;)
+
+#alert http any any -> any any (msg:"sensitive file leak"; filename:"kien-nghi-de-so-gddt-to-chuc-ki-thi-thpt-quoc-gia.jpg";sid:10000003; rev:1;)
+#alert http any any -> any any (msg:"sensitive file leak1"; filename:"kien-nghi-de-so-gddt-to-chuc-ki-thi-thpt-quoc-gia.jpg";sid:10000003; rev:1;)
+alert http any any -> any any (msg:"sensitive file leak2"; filename:"tien-san-giat.jpg";sid:10000004; rev:1;)
+alert http any any -> any any (msg:"sensitive file leak3"; filename:"tien-san-giat";sid:10000005; rev:1;)
+
+#alert tcp any any -> any any ( sid: 721; rev: 4; msg: "Block HTTP POST upload file"; content: "Content-Disposition|3a|"; content: "filename=|22|"; distance: 0; within: 30; content: "abc.pdf|22|"; distance: 0; within: 30; nocase; classtype: suspicious-filename-detect;)
+

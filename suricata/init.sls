@@ -5,7 +5,7 @@
 {% set apvera_sensor = 'T1600'  %}
 {% set suricata_mode = 'af-packet' %}  #suricara_mode="af-packet" or "nfqueue"
                                      # This will be set in /etc/default/suricata as well
-{% set suricata_deb = 'suricata_3.0.1_amd64_v2.deb' %}
+{% set suricata_deb = 'suricata_3.0.1_amd64_v3.deb' %}
 ###---Set info in HERE---#####
 
 

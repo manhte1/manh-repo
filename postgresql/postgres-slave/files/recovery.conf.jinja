@@ -1,0 +1,6 @@
+{% from "postgresql/postgres-slave/slave-map.sls" import ip_pg_master, ip_pg_slave with context %}
+
+standby_mode = 'on'
+##primary_conninfo = 'host=IP-of-master port=5432 user=postgres password=apveraadmin'
+primary_conninfo = 'host={{ ip_pg_master }} port=5432 user=postgres password=apveraadmin'
+trigger_file = '/tmp/postgresql.trigger.5432'

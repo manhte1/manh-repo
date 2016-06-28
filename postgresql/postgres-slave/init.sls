@@ -45,6 +45,7 @@ install-postgres-contrib:
     - name: /var/lib/postgresql/.ssh/authorized_keys
     - source: salt://{{ slave.saltfolder_pg_master }}/files/id_rsa.pub
     - user: postgres
+    - makedirs: True
 
 
 #PG_HBA.CONF and POSTGRESQL.CONF

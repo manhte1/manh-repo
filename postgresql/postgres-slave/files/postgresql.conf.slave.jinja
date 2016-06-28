@@ -1,7 +1,7 @@
 #postgresql.conf
-{% from "postgresql/postgres-slave/slave-map.sls" import ip_pg_master, ip_pg_slave with context %}
+{% import 'postgresql/postgres-slave/slave-map.sls' as slave with context %}
 
-listen_addresses = 'localhost,{{ ip_pg_slave }}'
+listen_addresses = 'localhost,{{ slave.ip_pg_slave }}'
 wal_level = 'hot_standby'
 archive_mode = on
 archive_command = 'cd .'

@@ -1,28 +1,28 @@
-{% from "postgresql/postgres-master/master-map.jinja" import pg_version, saltfolder_pg_master, saltfolder_pg_slave, ip_pg_master, ip_pg_slave with context %}
+{% import 'postgresql/postgres-slave/slave-map.sls' as slave with context %}
 #PostgreSQL Repository
 install-postgresql-repo:
   pkgrepo.managed:
     - humanname: PostgreSQL Official Repository
-    - name: deb http://apt.postgresql.org/pub/repos/apt trusty-pgdg main {{ pg_version }}
+    - name: deb http://apt.postgresql.org/pub/repos/apt trusty-pgdg main {{ master.pg_version }}
     - keyid: B97B0AFCAA1A47F044F244A07FCC7D46ACCC4CF8
     - keyserver: keyserver.ubuntu.com
     - file: /etc/apt/sources.list.d/pgdg.list
     - require_in:
       - pkg: install-postgresql
 #Make Dir
-#/etc/postgresql/{{ pg_version }}/main:
+#/etc/postgresql/{{ master.pg_version }}/main:
 #  file.directory:
 #    - makedirs: True
 
 #-----------Install Postgres -------------------------------start#
 install-postgresql:
   pkg.installed:
-    - name: postgresql-{{ pg_version }}
+    - name: postgresql-{{ master.pg_version }}
     - refresh: False
 
 install-postgresql-client:
   pkg.installed:
-    - name: postgresql-client-{{ pg_version }}
+    - name: postgresql-client-{{ master.pg_version }}
     - refresh: False
 
 #Create-postgresql-cluster
@@ -30,8 +30,8 @@ create-postgresql-cluster:
   cmd.run:
     - cwd: /
     - user: root
-    - name: pg_createcluster {{ pg_version }} main --start
-    - unless: test -f /etc/postgresql/{{ pg_version }}/main/postgresql.conf
+    - name: pg_createcluster {{ master.pg_version }} main --start
+    - unless: test -f /etc/postgresql/{{ master.pg_version }}/main/postgresql.conf
     - env:
       LC_ALL: C.UTF-8
 
@@ -40,7 +40,7 @@ postgresql-initdb:
     - cwd: /
     - user: root
     - name: service postgresql initdb
-    - unless: test -f /etc/postgresql/{{ pg_version }}/main/postgresql.conf
+    - unless: test -f /etc/postgresql/{{ master.pg_version }}/main/postgresql.conf
     - env:
       LC_ALL: C.UTF-8
 
@@ -54,13 +54,13 @@ run-postgresql:
 #Install postgresql-contrib
 install-postgres-contrib:
   pkg.installed:
-    - name: postgresql-contrib-{{ pg_version }}
+    - name: postgresql-contrib-{{ master.pg_version }}
 
 
 #PG_HBA.CONF and POSTGRESQL.CONF
-/etc/postgresql/{{ pg_version }}/main/postgresql.conf:
+/etc/postgresql/{{ master.pg_version }}/main/postgresql.conf:
   file.managed:
-    - name: /etc/postgresql/{{ pg_version }}/main/postgresql.conf
+    - name: /etc/postgresql/{{ master.pg_version }}/main/postgresql.conf
     - source: salt://{{ saltfolder_pg_master }}/files/postgresql.conf.master.jinja
     - template: jinja
     - show_changes: True
@@ -68,9 +68,9 @@ install-postgres-contrib:
        - service: run-postgresql
 
 
-/etc/postgresql/{{ pg_version }}/main/pg_hba.conf:
+/etc/postgresql/{{ master.pg_version }}/main/pg_hba.conf:
   file.managed:
-    - name: /etc/postgresql/{{ pg_version }}/main/pg_hba.conf
+    - name: /etc/postgresql/{{ master.pg_version }}/main/pg_hba.conf
     - source: salt://{{ saltfolder_pg_master }}/files/pg_hba.conf.master.jinja
     - template: jinja
     - user: postgres
@@ -135,14 +135,14 @@ pg_start_backup:
 rsync_db_1:
   cmd.run:
     - user: postgres
-    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ pg_version }}/main/ {{ ip_pg_slave_1 }}:/var/lib/postgresql/{{ pg_version }}/main/
+    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ ip_pg_slave_1 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
     - require:
       - service: postgresql
 #-----------1st sync to SLAVE2 -------------------#
 rsync_db_2:
   cmd.run:
     - user: postgres
-    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ pg_version }}/main/ {{ ip_pg_slave_2 }}:/var/lib/postgresql/{{ pg_version }}/main/
+    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ ip_pg_slave_2 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
     - require:
       - service: postgresql
       - cmd: rsync_db_1

@@ -4,4 +4,6 @@ base:
   sensor_f3ea78d6:
     - suricata
   ip-192-168-2-175.ap-southeast-1.compute.internal:
-    - suricata 
+    - suricata
+  ip-192-168-2-73.ap-southeast-1.compute.internal:
+    - postgresql.postgres-slave

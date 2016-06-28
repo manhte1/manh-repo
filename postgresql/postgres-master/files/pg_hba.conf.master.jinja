@@ -1,0 +1,13 @@
+#/etc/postgresql/9.4/main/pg_hba.conf
+{% from "postgresql/postgres-master/master-map.sls" import ip_pg_master, ip_pg_slave_1, ip_pg_slave_2 with context %}
+
+local   all             postgres                                peer
+local   all             all                                     peer
+host    all             all             127.0.0.1/32            md5
+host    all             all             ::1/128                 md5
+
+# host    replication     <User-replication>     IP_address_of_slave/32  md5
+host    replication     postgres     {{ ip_pg_slave_1 }}/32     md5     #slave1
+host    replication     postgres     {{ ip_pg_slave_2 }}/32   md5     #slave2
+
+host    all             all          0.0.0.0/0              md5

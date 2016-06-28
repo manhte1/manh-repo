@@ -1,5 +1,5 @@
 #This is master configuration postgresql.confip_pg_slave
-{% from "postgresql/postgres-master/master-map.sls" import ip_pg_master with context %}
+{% from "postgresql/postgres-master/master-map.jinja" import ip_pg_master with context %}
 
 listen_addresses = 'localhost,{{ ip_pg_master }}'
 wal_level = 'hot_standby'

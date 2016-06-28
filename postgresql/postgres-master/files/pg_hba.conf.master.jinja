@@ -1,5 +1,5 @@
 #/etc/postgresql/9.4/main/pg_hba.conf
-{% from "postgresql/postgres-master/master-map.sls" import ip_pg_master, ip_pg_slave_1, ip_pg_slave_2 with context %}
+{% from "postgresql/postgres-master/master-map.jinja" import ip_pg_master, ip_pg_slave_1, ip_pg_slave_2 with context %}
 
 local   all             postgres                                peer
 local   all             all                                     peer

@@ -9,10 +9,6 @@ install-postgresql-repo:
     - file: /etc/apt/sources.list.d/pgdg.list
     - require_in:
       - pkg: install-postgresql
-#Make Dir
-#/etc/postgresql/{{ master.pg_version }}/main:
-#  file.directory:
-#    - makedirs: True
 
 #-----------Install Postgres -------------------------------start#
 install-postgresql:

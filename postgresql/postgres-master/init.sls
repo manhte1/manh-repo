@@ -144,7 +144,7 @@ rsync_db_2:
   cmd.run:
     - user: postgres
     - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ master.ip_pg_slave_2 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
-    - require:
+#    - require:
 #      - service: postgresql
 #      - cmd: rsync_db_1
 

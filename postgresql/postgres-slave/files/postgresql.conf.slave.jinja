@@ -7,4 +7,5 @@ archive_mode = on
 archive_command = 'cd .'
 max_wal_senders = 1
 hot_standby = on
+data_directory = '/var/lib/postgresql/{{ slave.pg_version }}/main'
 #unix_socket_directories='/var/run/postgresql'

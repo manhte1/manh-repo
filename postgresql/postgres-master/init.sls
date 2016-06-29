@@ -137,16 +137,16 @@ rsync_db_1:
   cmd.run:
     - user: postgres
     - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ master.ip_pg_slave_1 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
-    - require:
-      - service: postgresql
+#    - require:
+#      - service: postgresql
 #-----------1st sync to SLAVE2 -------------------#
 rsync_db_2:
   cmd.run:
     - user: postgres
     - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ master.ip_pg_slave_2 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
     - require:
-      - service: postgresql
-      - cmd: rsync_db_1
+#      - service: postgresql
+#      - cmd: rsync_db_1
 
 pg_stop_backup:
   cmd.run:
@@ -154,4 +154,4 @@ pg_stop_backup:
     - name: psql -c "select pg_stop_backup();"
     - require:
       - service: postgresql
-      - cmd: rsync_db_2
+#      - cmd: rsync_db_2

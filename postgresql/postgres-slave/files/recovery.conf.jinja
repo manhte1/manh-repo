@@ -1,5 +1,4 @@
 {% import 'postgresql/postgres-slave/slave-map.sls' as slave with context %}
-
 standby_mode = 'on'
 ##primary_conninfo = 'host=IP-of-master port=5432 user=postgres password=apveraadmin'
 primary_conninfo = 'host={{ slave.ip_pg_master }} port=5432 user=postgres password=apveraadmin'

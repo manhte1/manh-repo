@@ -60,6 +60,7 @@ install-postgres-contrib:
     - source: salt://{{ master.saltfolder_pg_master }}/files/postgresql.conf.master.jinja
     - template: jinja
     - show_changes: True
+    - backup: .bak
     - watch_in:
        - service: run-postgresql
 
@@ -69,6 +70,7 @@ install-postgres-contrib:
     - name: /etc/postgresql/{{ master.pg_version }}/main/pg_hba.conf
     - source: salt://{{ master.saltfolder_pg_master }}/files/pg_hba.conf.master.jinja
     - template: jinja
+    - backup: .bak
     - user: postgres
     - group: postgres
     - mode: 644

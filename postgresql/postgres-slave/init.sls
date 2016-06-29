@@ -54,6 +54,7 @@ install-postgres-contrib:
     - name: /etc/postgresql/{{ slave.pg_version }}/main/postgresql.conf
     - source: salt://{{ slave.saltfolder_pg_slave }}/files/postgresql.conf.slave.jinja
     - template: jinja
+    - backup: .bak
     - show_changes: True
     - watch_in:
        - service: run-postgresql
@@ -67,6 +68,7 @@ install-postgres-contrib:
     - user: postgres
     - group: postgres
     - mode: 644
+    - backup: .bak
     - require:
       - pkg: install-postgresql
     - watch_in:
@@ -79,6 +81,7 @@ install-postgres-contrib:
     - template: jinja
     - user: postgres
     - group: postgres
+    - backup: .bak
     - require:
       - pkg: install-postgresql
     - watch_in:

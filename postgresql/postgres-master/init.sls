@@ -1,4 +1,4 @@
-{% import 'postgresql/postgres-slave/slave-map.sls' as slave with context %}
+{% import 'postgresql/postgres-master/master-map.sls' as master with context %}
 #PostgreSQL Repository
 install-postgresql-repo:
   pkgrepo.managed:
@@ -61,7 +61,7 @@ install-postgres-contrib:
 /etc/postgresql/{{ master.pg_version }}/main/postgresql.conf:
   file.managed:
     - name: /etc/postgresql/{{ master.pg_version }}/main/postgresql.conf
-    - source: salt://{{ saltfolder_pg_master }}/files/postgresql.conf.master.jinja
+    - source: salt://{{ master.saltfolder_pg_master }}/files/postgresql.conf.master.jinja
     - template: jinja
     - show_changes: True
     - watch_in:
@@ -71,7 +71,7 @@ install-postgres-contrib:
 /etc/postgresql/{{ master.pg_version }}/main/pg_hba.conf:
   file.managed:
     - name: /etc/postgresql/{{ master.pg_version }}/main/pg_hba.conf
-    - source: salt://{{ saltfolder_pg_master }}/files/pg_hba.conf.master.jinja
+    - source: salt://{{ master.saltfolder_pg_master }}/files/pg_hba.conf.master.jinja
     - template: jinja
     - user: postgres
     - group: postgres
@@ -87,32 +87,35 @@ install-postgres-contrib:
 /var/lib/postgresql/.ssh:
   file.directory:
     - name: /var/lib/postgresql/.ssh
-    - makedir: True
+    - makedirs: True
     - user: postgres
 
 /var/lib/postgresql/.ssh/id_rsa:
   file.managed:
     - name: /var/lib/postgresql/.ssh/id_rsa
-    - source: salt://{{ saltfolder_pg_master }}/files/id_rsa
+    - source: salt://{{ master.saltfolder_pg_master }}/files/id_rsa
     - user: postgres
     - mode: 600
+    - makedirs: True
 
 /var/lib/postgresql/.ssh/id_rsa.pub:
   file.managed:
     - name: /var/lib/postgresql/.ssh/id_rsa.pub
-    - source: salt://{{ saltfolder_pg_master }}/files/id_rsa.pub
+    - source: salt://{{ master.saltfolder_pg_master }}/files/id_rsa.pub
     - user: postgres
+    - makedirs: True
 
 /var/lib/postgresql/.ssh/authorized_keys:
   file.managed:
     - name: /var/lib/postgresql/.ssh/authorized_keys
-    - source: salt://{{ saltfolder_pg_master }}/files/id_rsa.pub
+    - source: salt://{{ master.saltfolder_pg_master }}/files/id_rsa.pub
     - user: postgres
+    - makedirs: True
 
 /var/lib/postgresql/.ssh/known_hosts:
   file.managed:
     - name: /var/lib/postgresql/.ssh/known_hosts
-    - source: salt://{{ saltfolder_pg_master }}/files/known_hosts.jinja
+    - source: salt://{{ master.saltfolder_pg_master }}/files/known_hosts.jinja
     - template: jinja
     - create: True
 #-----------Copy SSH key for replication -------------------start#
@@ -135,14 +138,14 @@ pg_start_backup:
 rsync_db_1:
   cmd.run:
     - user: postgres
-    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ ip_pg_slave_1 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
+    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ master.ip_pg_slave_1 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
     - require:
       - service: postgresql
 #-----------1st sync to SLAVE2 -------------------#
 rsync_db_2:
   cmd.run:
     - user: postgres
-    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ ip_pg_slave_2 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
+    - name: rsync -cva --inplace --exclude=*pg_xlog* /var/lib/postgresql/{{ master.pg_version }}/main/ {{ master.ip_pg_slave_2 }}:/var/lib/postgresql/{{ master.pg_version }}/main/
     - require:
       - service: postgresql
       - cmd: rsync_db_1

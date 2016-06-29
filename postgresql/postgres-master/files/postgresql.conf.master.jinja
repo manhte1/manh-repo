@@ -1,7 +1,7 @@
 #This is master configuration postgresql.confip_pg_slave
-{% from "postgresql/postgres-master/master-map.jinja" import ip_pg_master with context %}
+{% import 'postgresql/postgres-master/master-map.sls' as master with context %}
 
-listen_addresses = 'localhost,{{ ip_pg_master }}'
+listen_addresses = 'localhost,{{ master.ip_pg_master }}'
 wal_level = 'hot_standby'
 archive_mode = on
 archive_command = 'cd .'

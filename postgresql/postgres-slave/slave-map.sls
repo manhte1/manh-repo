@@ -3,4 +3,3 @@
 {% set saltfolder_pg_slave = 'postgresql/postgres-slave'  %}
 {% set ip_pg_master = '192.168.2.153'  %}
 {% set ip_pg_slave = salt['network.interfaces']()['eth0']['inet'][0]['address'] %}
-##{% set ip_pg_slave = '192.168.2.193'  %}

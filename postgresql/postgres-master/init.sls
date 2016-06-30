@@ -1,3 +1,3 @@
-included:
-  - postgresql.postgres-master.install-master
+include:
+  - postgresql.postgres-master.install_master
   - postgresql.postgres-master.rsync_db

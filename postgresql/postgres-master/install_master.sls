@@ -117,10 +117,3 @@ install-postgres-contrib:
 #    - template: jinja
 #    - create: True
 #-----------Copy SSH key for replication -------------------start#
-
-
-#Set password for replication:
-set_replication_password:
-  cmd.run:
-    - user: postgres
-    - name: psql -c "ALTER USER postgres REPLICATION LOGIN CONNECTION LIMIT 1 ENCRYPTED PASSWORD 'apveraadmin';"

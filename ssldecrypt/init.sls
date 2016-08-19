@@ -45,8 +45,8 @@ include:
 #-Install mitmproxy -----------------------
 mitm_dependencies:
   cmd.run:
-    - name: apt-get -y install python-pip python-dev libffi-dev libssl-dev libxm                                                                              l2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
-
+#    - name: apt-get -y install python-pip python-dev libffi-dev libssl-dev libxm                                                                              l2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
+    - name: apt-get -y install python-pip python-dev libffi-dev libssl-dev libxml2-dev libxslt1-dev libjpeg8-dev zlib1g-dev
 mitm_install:
   cmd.run:
    - name: pip install mitmproxy

@@ -21,7 +21,7 @@
         iface {{ mgmt }} inet static
           address {{ mgmt_ipaddr }}
           netmask {{ mgmt_netmask }}
-          gateway {{ mgmt_gw }}
+          #gateway {{ mgmt_gw }}
           # dns-* options are implemented by the resolvconf package, if installed
           dns-nameservers {{ mgmt_dns }}
           dns-search apvera.com

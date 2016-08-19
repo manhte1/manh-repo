@@ -7,15 +7,15 @@
 #network configure eth0-p1p1-p2p1-p3p1-eth4
 #
 #####---Set IP management HERE---#####
-{% set mgmt_ipaddr = '10.51.177.192' %}
+{% set mgmt_ipaddr = '192.168.1.201' %}
 {% set mgmt_netmask = '255.255.255.0' %}
-{% set mgmt_gw = '10.51.177.1' %}
+{% set mgmt_gw = '192.168.1.1' %}
 {% set mgmt_dns = '8.8.8.8' %}
 
 #####---Set IP br0 for mitmproxy HERE---#####
-{% set br0_ipaddr = '10.51.177.192' %}
+{% set br0_ipaddr = '192.168.1.202' %}
 {% set br0_netmask = '255.255.255.0' %}
-{% set br0_gw = '10.51.177.1' %}
+{% set br0_gw = '192.168.1.1' %}
 
 #Set model of sensor
 {% set apvera_sensor = 'T1600'  %} #'T1600' or 'T800' or T1600-desktop
@@ -68,7 +68,7 @@ mitm_install:
     - mode: 777
     - source: salt://ssldecrypt/files/iptabes_mitm.sh
 
-#-------Configure br0 as start_up
+#-------Configure br0 as start_up----
 /etc/ssldecrypt/br_startup.sh:
   file.managed:
     - name: /etc/ssldecrypt/br_startup.sh
@@ -83,4 +83,17 @@ mitm_install:
     - contents: |
         @reboot sh /etc/ssldecrypt/br_startup.sh
     - show_changes: True
-#--------Iptables to run NFQ and MITM----
+
+#-------- Run mitm as startup ----
+/etc/init/mitm.conf:
+  file.managed:
+    - name: /etc/init/mitm.conf
+    - contents: |
+        start on startup
+        task
+        exec mitmproxy -T -p 8443
+    - user: root
+    - makedirs: True
+    - mode: 644
+    - replace: True
+    - show_diff: True

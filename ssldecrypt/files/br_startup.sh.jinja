@@ -1,4 +1,4 @@
-{% from "ssldecrypt/init.sls" import br0_ip, br0_netmask with context %}
+{% from "ssldecrypt/init.sls" import br0_ipaddr, br0_netmask with context %}
 brctl addbr br0
 brctl addif br0 p1p1
 brctl addif br0 p2p1

@@ -1,4 +1,4 @@
-{% from "ssldecrypt/init.sls" import mgmt_ipaddr, mgmt_gw, mgmt_netmask, mgmt_dns with context %}
+{% from "ssldecrypt/init.sls" import mgmt_ipaddr, mgmt_gw, mgmt_netmask, mgmt_dns, mgmt, eth1, eth2, eth3, eth4 with context %}
 /etc/network/interfaces.d.bak:
   cmd.run:
     - name: mv /etc/network/interfaces.d /etc/network/interfaces.d.bak

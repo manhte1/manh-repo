@@ -37,10 +37,14 @@
   {% set eth4 = 'eth4' %}
   {% set eth5 = 'eth5' %}
 {% endif %}
-####---DO NOT EDIT FROM HERE---#####
+####---DO NOT EDIT FROM HERE---End#####
 #-Configure network -----------------------
 include:
   - ssldecrypt.network
+
+#-Install br_ctl -----------------------
+bridge-utils:
+  pkg.installed
 
 #-Install mitmproxy -----------------------
 mitm_dependencies:
@@ -83,13 +87,13 @@ mitm_install:
     - show_diff: True
 
 /etc/crontab:
-  file.managed:
+  file.blockreplace:
     - name: /etc/crontab
     - marker_start: "#Apvera-ssldecrypt-start#"
     - marker_end: "#Apvera-ssldecrypt-end#"
     - contents: |
-        @reboot sh /etc/ssldecrypt/br_startup.sh
-        @reboot sh /etc/ssldecrypt/iptables_mitm.sh
+        @reboot root sh /etc/ssldecrypt/br_startup.sh
+        @reboot root sh /etc/ssldecrypt/iptables_mitm.sh
     - show_changes: True
     - append_if_not_found: True
     - backup: .bak

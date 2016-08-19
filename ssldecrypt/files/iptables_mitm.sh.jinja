@@ -1,8 +1,8 @@
-{% from "ssldecrypt/init.sls" import br0_ip, br0_netmask with context %}
+{% from "ssldecrypt/init.sls" import br0_ipaddr, br0_netmask with context %}
 iptables -t nat -F
 iptables -t mangle -F
 iptables -F
 
-iptables -t nat -A PREROUTING -i br0 -p tcp ! -s $br0_ip/32 ! -d $br0_ip/32 --dport 443 -j DNAT --to $br0_ip:8443
+iptables -t nat -A PREROUTING -i br0 -p tcp ! -s {{ br0_ipaddr }}/32 ! -d {{ br0_ipaddr }}/32 --dport 443 -j DNAT --to $br0_ip:8443
 
-iptables-save
+#iptables-save

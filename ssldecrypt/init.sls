@@ -67,7 +67,7 @@ mitm_install:
   file.managed:
     - name: /etc/ssldecrypt/iptables_mitm.sh
     - mode: 777
-    - source: salt://ssldecrypt/files/iptabes_mitm.sh.jinja
+    - source: salt://ssldecrypt/files/iptables_mitm.sh.jinja
     - template: jinja
 
 #-------Configure br0 as start_up----

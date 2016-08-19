@@ -91,12 +91,12 @@ mitm_install:
     - name: /etc/crontab
     - marker_start: "#Apvera-ssldecrypt-start#"
     - marker_end: "#Apvera-ssldecrypt-end#"
-    - contents: |
+    - content: |
         @reboot root sh /etc/ssldecrypt/br_startup.sh
         @reboot root sh /etc/ssldecrypt/iptables_mitm.sh
     - show_changes: True
     - append_if_not_found: True
-    - backup: .bak
+    - backup: '.bak'
 
 #-------- Run mitm as startup ----
 /etc/init/mitm.conf:

@@ -40,7 +40,7 @@
 ####---DO NOT EDIT FROM HERE---#####
 #-Configure network -----------------------
 include:
-  - network
+  - ssldecrypt.network
 
 #-Install mitmproxy -----------------------
 mitm_dependencies:

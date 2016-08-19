@@ -58,6 +58,7 @@ mitm_install:
   file.managed:
     - name: /etc/suricata/suricata.yaml
     - source: salt://ssldecrypt/files/suricata_3.0.1.yaml.jinja
+    - template: jinja
     - makedirs: True
     - show_diff: True
 
@@ -66,7 +67,8 @@ mitm_install:
   file.managed:
     - name: /etc/ssldecrypt/iptables_mitm.sh
     - mode: 777
-    - source: salt://ssldecrypt/files/iptabes_mitm.sh
+    - source: salt://ssldecrypt/files/iptabes_mitm.sh.jinja
+    - template: jinja
 
 #-------Configure br0 as start_up----
 /etc/ssldecrypt/br_startup.sh:
@@ -74,7 +76,7 @@ mitm_install:
     - name: /etc/ssldecrypt/br_startup.sh
     - mode: 777
     - source: salt://ssldecrypt/files/br_startup.sh.jinja
-
+    - template: jinja
 /etc/crontab:
   file.managed:
     - name: /etc/crontab

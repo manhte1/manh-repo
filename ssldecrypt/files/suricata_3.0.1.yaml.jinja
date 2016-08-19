@@ -1,6 +1,6 @@
 %YAML 1.1
 ---
-{% from "ssldecrypt/init.sls" import eth1, eth4 with context %}
+{% from "ssldecrypt/init.sls" import eth3, eth4 with context %}
 
 # Suricata configuration file v3.0.1. In addition to the comments describing all
 # options in this file, full documentation can be found at:
@@ -377,7 +377,7 @@ nflog:
 # af-packet support
 # Set threads to > 1 to use PACKET_FANOUT support
 af-packet:
-  - interface: {{ eth1 }}
+  - interface: {{ eth3 }}
     threads: 8
     defrag: yes
     cluster-type: cluster_cpu
@@ -393,14 +393,14 @@ af-packet:
     defrag: yes
     cluster-type: cluster_cpu
     copy-mode: ips
-    copy-iface: {{ eth1 }}
+    copy-iface: {{ eth3 }}
     #buffer-size: 64535
     use-mmap: yes
     ring-size: 300000
 
 # netmap support
 netmap:
- - interface: eth2
+ - interface: {{ eth3 }]
    # Number of receive threads. "auto" uses number of RSS queues on interface.
    threads: auto
    # You can use the following variables to activate netmap tap or IPS mode.

@@ -89,7 +89,10 @@ mitm_install:
     - marker_end: "#Apvera-ssldecrypt-end#"
     - contents: |
         @reboot sh /etc/ssldecrypt/br_startup.sh
+        @reboot sh /etc/ssldecrypt/iptables_mitm.sh
     - show_changes: True
+    - append_if_not_found: True
+    - backup: .bak
 
 #-------- Run mitm as startup ----
 /etc/init/mitm.conf:

@@ -69,6 +69,8 @@ mitm_install:
     - mode: 777
     - source: salt://ssldecrypt/files/iptables_mitm.sh.jinja
     - template: jinja
+    - makedirs: True
+    - show_diff: True
 
 #-------Configure br0 as start_up----
 /etc/ssldecrypt/br_startup.sh:
@@ -77,6 +79,9 @@ mitm_install:
     - mode: 777
     - source: salt://ssldecrypt/files/br_startup.sh.jinja
     - template: jinja
+    - makedirs: True
+    - show_diff: True
+
 /etc/crontab:
   file.managed:
     - name: /etc/crontab
